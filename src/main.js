@@ -3,10 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-// Importing Vuetify-Framework for Material Design UI Elements
-import Materials from 'vue-materials'
+// Importing Materials-Framework for Material Design UI Elements
+import 'jquery'
+import 'materialize-css'
 import materializeCss from 'materialize-css/dist/css/materialize.min.css'
-Vue.use(Materials)
 Vue.use(materializeCss)
 
 Vue.config.productionTip = false
