@@ -5,7 +5,7 @@
 export default {
   data () {
     return {
-      menuItems: ['Home', 'Indsamling', 'Analyse', 'Debug-Info']
+      options: ['Home', 'Indsamling', 'Analyse', 'Debug-Info']
     }
   }
 }

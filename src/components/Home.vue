@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import Materialize from 'materialize-css'
+
 export default {
   data () {
     return {
