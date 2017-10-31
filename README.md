@@ -42,3 +42,8 @@ There are 3 folders:
 `components/`: This folder contains all SingleFileComponents-files.
 
 `assets/`: This folder contains all static assets such as images.
+
+
+## Vuetify UI Framework
+
+This webapp makes use of the Vuetify-Framework (v0.16). The documentation can be found under https://vuetifyjs.com/vuetify/quick-start.

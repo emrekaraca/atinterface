@@ -1,9 +1,6 @@
 <template>
   <div class="main">
     <h1>{{title}}</h1>
-    <md-button class="md-icon-button md-raised">
-      <md-icon>add</md-icon>
-    </md-button>
   </div>
 </template>
 

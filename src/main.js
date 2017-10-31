@@ -3,11 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-// Importing VueMaterial-Framework for Material Design UI Elements
-var VueMaterial = require('vue-material')
-let VueMaterialCSS = require('vue-material/dist/vue-material.css')
-Vue.use(VueMaterial)
-Vue.use(VueMaterialCSS)
+// Importing Vuetify-Framework for Material Design UI Elements
+import Vuetify from 'vuetify'
+import('../node_modules/vuetify/dist/vuetify.min.css')
+Vue.use(Vuetify)
 
 Vue.config.productionTip = false
 
