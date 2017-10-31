@@ -11,6 +11,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "materialize-css": "^0.100.2",
     "vue": "^2.5.2",
     "vue-materials": "^1.0.7-rc.7",
     "vue-router": "^3.0.1"
