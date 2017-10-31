@@ -1,11 +1,12 @@
-<template>  
+<template>
+
 </template>
 
 <script>
 export default {
   data () {
     return {
-      menuItems: ['Home', 'Page2', 'Page3']
+      menuItems: ['Home', 'Indsamling', 'Analyse', 'Debug-Info']
     }
   }
 }

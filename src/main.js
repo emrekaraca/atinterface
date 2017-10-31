@@ -4,9 +4,10 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 // Importing Vuetify-Framework for Material Design UI Elements
-import Vuetify from 'vuetify'
-import('../node_modules/vuetify/dist/vuetify.min.css')
-Vue.use(Vuetify)
+import Materials from 'vue-materials'
+import materializeCss from 'materialize-css/dist/css/materialize.min.css'
+Vue.use(Materials)
+Vue.use(materializeCss)
 
 Vue.config.productionTip = false
 
