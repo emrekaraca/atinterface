@@ -1,7 +1,16 @@
 <template>
   <div id="app">
-    <app-menu app></app-menu>
-    <router-view/>
+    <el-container>
+
+      <el-aside width="250px">
+        <app-menu app></app-menu>
+      </el-aside>
+
+      <el-main class="main">
+        <router-view/>
+      </el-main>
+
+    </el-container>
     
   </div>
 </template>
@@ -18,4 +27,14 @@ export default {
 </script>
 
 <style>
+
+body {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  margin: 0;
+}
+
+.main {
+  background-color: lightgrey;
+}
+
 </style>

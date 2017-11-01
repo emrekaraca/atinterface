@@ -1,6 +1,9 @@
 <template>
   <div class="main">
-    <b-jumbotron header="Attention Triggers 2.0" lead="The feature is now.">
+    <div class="jumbotron">
+      <h1>Attention Triggers 2.0</h1>
+      <p><b>The feature is now.</b></p>
+
       <p>Dette interface skal kunne gøre følgende:</p>
       <ul>
         <li>Indsamle data fra nye Facebook sider</li>
@@ -15,7 +18,7 @@
         <a class="btn btn-lg btn-default" role="button"
            href="http://pythonhosted.org/Flask-Bootstrap" >Show docs</a>
       </p> -->
-    </b-jumbotron>
+    </div>
   </div>
   
 </template>

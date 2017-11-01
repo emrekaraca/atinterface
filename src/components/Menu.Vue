@@ -1,29 +1,31 @@
 <template>
-  <b-navbar toggleable="md" type="light" variant="secondary">
-
-    <b-nav-toggle target="nav_collapse"></b-nav-toggle>
-      <b-navbar-brand href="/#/">Attention Trigger</b-navbar-brand>
-    <b-collapse is-nav id="nav_collapse">
-
-      <b-nav is-nav-bar>
-        <b-nav-item><router-link to="/">Home</router-link></b-nav-item>
-        <template v-for="option in options">
-          <b-nav-item :key="option">
-            <router-link :to="option">{{option}}</router-link>
-          </b-nav-item>
+  <el-row class="tac">
+    <el-col :span="24">
+      <el-menu
+        default-active="home"
+        class="el-menu-vertical"
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+        router="true">
+        <el-menu-item index="home"><i class="el-icon-arrow-right"></i>Home</el-menu-item>
+        <template v-for="(option, index) in options">
+          <el-menu-item :index="(option).toLowerCase().replace(' ', '')" :key="option"><i class="el-icon-arrow-right"></i>{{option}}</el-menu-item>
         </template>
-      </b-nav>
-
-    </b-collapse>
-  </b-navbar>
+      </el-menu>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
 export default {
   data () {
     return {
-      options: ['Collection', 'Analysis', 'Debug-Info', 'Topic Model']
+      options: ['Collection', 'Analysis', 'Debug Info', 'Topic Model']
     }
+  },
+  methods: {
+
   }
 }
 </script>
@@ -33,5 +35,11 @@ export default {
 a {
   color: black;
 }
+
+.el-menu-vertical {
+  height: 100vh;
+  border: none;
+}
+
 
 </style>
