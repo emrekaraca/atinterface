@@ -52,4 +52,8 @@ body {
   background-color: lightgrey;
 }
 
+.el-card {
+  margin: 10px 0;
+}
+
 </style>

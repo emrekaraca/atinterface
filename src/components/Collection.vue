@@ -47,15 +47,10 @@
                 </el-form-item>              
               </el-col>
 
-
-              <el-col :span="22" :offset="1">
-                <el-button class="runBtn" @click="submitForm('newProjectForm')">Kør indsamling</el-button>
-              </el-col>
-
-              <br>
-
             </el-row>
           </el-card>
+          
+          <el-button class="runBtn" @click="submitForm('newProjectForm')">Kør indsamling</el-button>
         </el-col>
       </el-form>
 

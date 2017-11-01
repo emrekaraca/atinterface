@@ -3,10 +3,11 @@
     <el-row>
       <el-col :span="16" :offset="4">
         <el-card>
-          <div slot="header">
-            <h1>Attention Triggers 2.0</h1>
-            <p><b>The feature is now.</b></p>
-          </div>          
+          <h1>Attention Triggers 2.0</h1>
+          <p><b>The feature is now.</b></p>
+        </el-card>
+        
+        <el-card>
           <p>Dette interface skal kunne gøre følgende:</p>
           <ul>
             <li>Indsamle data fra nye Facebook sider</li>
