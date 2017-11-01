@@ -4,6 +4,10 @@
       <el-form :label-position="labelPosition" label-width="150px" :model="project" ref="newProjectForm" :rules="rules">
         <el-col :span="16" :offset="4">
           <el-card>
+            <h1>Indsamling</h1>
+          </el-card>
+          
+          <el-card>
             <el-row>
 
               <el-col :span="12">

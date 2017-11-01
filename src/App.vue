@@ -7,7 +7,9 @@
       </el-aside>
 
       <el-main class="main">
-        <router-view/>
+        <transition name="fade">
+          <router-view/>
+        </transition>
       </el-main>
 
     </el-container>
@@ -28,8 +30,21 @@ export default {
 
 <style>
 
+.fade-enter-active, .fade-leave-active {
+  transition-property: opacity;
+  transition-duration: .4s;
+}
+
+.fade-enter-active {
+  transition-delay: .4s;
+}
+
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}
+
 body {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Roboto-Light", "Helvetica Neue",Helvetica,Arial,sans-serif;
   margin: 0;
 }
 
