@@ -22,7 +22,8 @@
           <b-form-textarea id="pageList"
                         v-model="project.pageList" required
                         placeholder="Enter Facebook pages"
-                        :rows="10"
+                        :rows="4"
+                        :max-rows="10"
           ></b-form-textarea>
         </b-form-group>
 
@@ -33,7 +34,7 @@
       </b-col>
 
       <b-col>
-
+        <h5>Valgrit</h5>
         <b-form-group id="dbName"
                       label="Database navn:" label-for="dbName"
                       description="Description">
