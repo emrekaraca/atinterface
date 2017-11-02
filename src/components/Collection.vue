@@ -1,62 +1,57 @@
 <template>
   <div class="main">
-    <el-row>
-      <el-form :label-position="labelPosition" label-width="150px" :model="project" ref="newProjectForm" :rules="rules">
-        <el-col :span="16" :offset="4">
-          <el-card>
-            <h1>Indsamling</h1>
-          </el-card>
-          
-          <el-card>
-            <el-row>
+    <el-form :label-position="labelPosition" label-width="150px" :model="project" ref="newProjectForm" :rules="rules">
+      <el-card>
+        <h1>Indsamling</h1>
+      </el-card>
+      
+      <el-card>
+        <el-row>
 
-              <el-col :span="12">
-                <el-form-item label="Projekt Titel:" prop="title">
-                  <el-input v-model="project.title"></el-input>
-                </el-form-item>
-                <el-form-item label="Facebook Page List:" prop="pageList">
-                  <el-input type="textarea" :rows="6" v-model="project.pageList"></el-input>
-                </el-form-item>
-                <el-form-item label="Land:" prop="country">
-                  <el-select v-model="project.country" placeholder="Choose country">
-                    <template v-for="country in countryList">
-                      <el-option :label="country" :value="country" :key="country"></el-option>
-                    </template>
-                  </el-select>              
-                </el-form-item>
-                <el-form-item label="Time Period">
-                  <el-col :span="11">
-                    <el-date-picker type="date" placeholder="Start Date" v-model="project.start" style="width: 100%;"></el-date-picker>
-                  </el-col>
-                  <el-col class="line" :span="2">-</el-col>
-                  <el-col :span="11">
-                    <el-date-picker type="date" placeholder="End Date" v-model="project.end" style="width: 100%;" prop="end"></el-date-picker>
-                  </el-col>
-                </el-form-item>
-              </el-col>
-
+          <el-col :span="12">
+            <el-form-item label="Projekt Titel:" prop="title">
+              <el-input v-model="project.title"></el-input>
+            </el-form-item>
+            <el-form-item label="Facebook Page List:" prop="pageList">
+              <el-input type="textarea" :rows="6" v-model="project.pageList"></el-input>
+            </el-form-item>
+            <el-form-item label="Land:" prop="country">
+              <el-select v-model="project.country" placeholder="Choose country">
+                <template v-for="country in countryList">
+                  <el-option :label="country" :value="country" :key="country"></el-option>
+                </template>
+              </el-select>              
+            </el-form-item>
+            <el-form-item label="Time Period">
               <el-col :span="11">
-                <el-form-item label="Database navn:" prop="dbName">
-                  <el-input v-model="project.dbName"></el-input>
-                </el-form-item>
-                <el-form-item label="App ID:" prop="appID">
-                  <el-input v-model="project.appID"></el-input>
-                </el-form-item>
-                <el-form-item label="App secret:" prop="appSecret">
-                  <el-input v-model="project.appSecret"></el-input>
-                </el-form-item>              
+                <el-date-picker type="date" placeholder="Start Date" v-model="project.start" style="width: 100%;"></el-date-picker>
               </el-col>
+              <el-col class="line" :span="2">-</el-col>
+              <el-col :span="11">
+                <el-date-picker type="date" placeholder="End Date" v-model="project.end" style="width: 100%;" prop="end"></el-date-picker>
+              </el-col>
+            </el-form-item>
+          </el-col>
 
-            </el-row>
-          </el-card>
-          
-          <el-button class="runBtn" @click="submitForm('newProjectForm')">Kør indsamling</el-button>
-        </el-col>
-      </el-form>
+          <el-col :span="11">
+            <el-form-item label="Database navn:" prop="dbName">
+              <el-input v-model="project.dbName"></el-input>
+            </el-form-item>
+            <el-form-item label="App ID:" prop="appID">
+              <el-input v-model="project.appID"></el-input>
+            </el-form-item>
+            <el-form-item label="App secret:" prop="appSecret">
+              <el-input v-model="project.appSecret"></el-input>
+            </el-form-item>              
+          </el-col>
+
+        </el-row>
+      </el-card>
+
+      <el-button class="runBtn" @click="submitForm('newProjectForm')">Kør indsamling</el-button>
+    </el-form>
 
       
-    </el-row>
-
     <transition name="el-zoom-in-top">
         <modal name="settings"
             :width="500"

@@ -3,12 +3,13 @@
     <el-row class="tac">
       <el-col :span="24">
         <el-menu
-          default-active="home"
+          default-active="/"
           class="el-menu-vertical"
-          background-color="#545c64"
-          text-color="#fff"
-          active-text-color="#ffd04b"
+          background-color="#79174f"
+          text-color="#7d7d7d"
+          active-text-color="#fff"
           router>
+          <img :src="logo()" width="80%" style="margin: 20px 0 20px 10%" />
           <el-menu-item index="/"><i class="el-icon-arrow-right"></i>Home</el-menu-item>
           <template v-for="(option, index) in options">
             <el-menu-item :index="(option).toLowerCase().replace(' ', '')" :key="option"><i class="el-icon-arrow-right"></i>{{option}}</el-menu-item>
@@ -27,7 +28,7 @@ export default {
     }
   },
   methods: {
-
+    logo: () => require('./../assets/logos/logo.png')
   }
 }
 </script>
@@ -43,5 +44,8 @@ a {
   border: none;
 }
 
+.el-menu-item.is-active {
+  background-color: rgba(115,40,83,1)!important;
+}
 
 </style>

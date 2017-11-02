@@ -7,9 +7,13 @@
       </el-aside>
 
       <el-main class="main">
-        <transition name="fade">
-          <router-view/>
-        </transition>
+        <el-row>
+          <el-col :span="20" :offset="2">
+            <transition name="fade">
+              <router-view/>
+            </transition>
+          </el-col>
+        </el-row>
       </el-main>
 
     </el-container>
@@ -44,12 +48,12 @@ export default {
 }
 
 body {
-  font-family: "Roboto-Light", "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: 'PT Sans',Helvetica,sans-serif;
   margin: 0;
 }
 
 .main {
-  background-color: lightgrey;
+  background-color: #ebebeb;
 }
 
 .el-card {
