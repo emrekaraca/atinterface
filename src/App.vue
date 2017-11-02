@@ -60,4 +60,17 @@ body {
   margin: 10px 0;
 }
 
+.el-form-item__error, .el-form-item.is-required .el-form-item__label:before {
+  color: #e01783;
+}
+
+
+.el-form-item.is-error .el-input__inner, .el-form-item.is-error .el-input__inner:focus, .el-form-item.is-error .el-textarea__inner, .el-form-item.is-error .el-textarea__inner:focus, .el-message-box__input input.invalid, .el-message-box__input input.invalid:focus {
+  border-color: #e01783;
+}
+
+.el-form-item.is-success .el-input__inner, .el-form-item.is-success .el-input__inner:focus, .el-form-item.is-success .el-textarea__inner, .el-form-item.is-success .el-textarea__inner:focus {
+  border-color: #768a60;
+}
+
 </style>

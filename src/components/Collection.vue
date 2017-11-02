@@ -22,14 +22,11 @@
                 </template>
               </el-select>              
             </el-form-item>
-            <el-form-item label="Time Period">
-              <el-col :span="11">
-                <el-date-picker type="date" placeholder="Start Date" v-model="project.start" style="width: 100%;"></el-date-picker>
-              </el-col>
-              <el-col class="line" :span="2">-</el-col>
-              <el-col :span="11">
-                <el-date-picker type="date" placeholder="End Date" v-model="project.end" style="width: 100%;" prop="end"></el-date-picker>
-              </el-col>
+            <el-form-item label="Start Date" prop="start">
+              <el-date-picker type="date" placeholder="Start Date" v-model="project.start" style="width: 100%;"></el-date-picker>
+            </el-form-item>
+            <el-form-item label="End Date" prop="end">
+              <el-date-picker type="date" placeholder="End Date" v-model="project.end" style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-col>
 
@@ -52,7 +49,7 @@
     </el-form>
 
       
-    <transition name="el-zoom-in-top">
+    <transition name="fade">
         <modal name="settings"
             :width="500"
             height="auto"
@@ -101,32 +98,31 @@ export default {
       },
       rules: {
         title: [
-          { required: true, message: 'This field has to be filled', trigger: 'blur' }
+          { required: true, message: 'This field has to be filled', trigger: 'change' }
         ],
         pageList: [
-          { required: true, message: 'This field has to be filled', trigger: 'blur' }
+          { required: true, message: 'This field has to be filled', trigger: 'change' }
         ],
         country: [
-          { required: true, message: 'This field has to be filled', trigger: 'blur' }
+          { required: true, message: 'This field has to be filled', trigger: 'change' }
         ],
         start: [
-          { required: true, message: 'This field has to be filled', trigger: 'blur' }
+          { required: true, type: 'date', message: 'This field has to be filled', trigger: 'change' }
         ],
         end: [
-          { required: true, message: 'This field has to be filled', trigger: 'blur' }
+          { required: true, type: 'date', message: 'This field has to be filled', trigger: 'change' }
         ],
         dbName: [
-          { required: true, message: 'This field has to be filled', trigger: 'blur' }
+          { required: true, message: 'This field has to be filled', trigger: 'change' }
         ],
         appID: [
-          { required: true, message: 'This field has to be filled', trigger: 'blur' }
+          { required: true, message: 'This field has to be filled', trigger: 'change' }
         ],
         appSecret: [
-          { required: true, message: 'This field has to be filled', trigger: 'blur' }
+          { required: true, message: 'This field has to be filled', trigger: 'change' }
         ]
       },
-      countryList: ['Danmark', 'Tyskland', 'Norge'],
-      labelPosition: 'right'
+      countryList: ['Danmark', 'Tyskland', 'Norge']
     }
   },
   methods: {
