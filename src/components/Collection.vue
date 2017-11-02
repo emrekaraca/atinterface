@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <el-form :label-position="labelPosition" label-width="150px" :model="project" ref="newProjectForm" :rules="rules">
+    <el-form label-width="150px" :model="project" ref="newProjectForm" :rules="rules">
       <el-card>
         <h1>Indsamling</h1>
       </el-card>
@@ -142,16 +142,6 @@ export default {
     },
     sendTask: function () {
       this.projectCopy = JSON.parse(JSON.stringify(this.project))
-      // this.project = {
-      //   title: '',
-      //   pageList: '',
-      //   country: '',
-      //   start: '',
-      //   end: '',
-      //   dbName: '',
-      //   appID: '',
-      //   AppSecret: ''
-      // }
       this.showModal()
     },
     showModal: function () { this.$modal.show('settings') },

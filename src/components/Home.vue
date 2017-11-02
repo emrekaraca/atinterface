@@ -17,8 +17,6 @@
       </ul>
     </el-card>
 
-
-
     <!-- <p>
       <a class="btn btn-lg btn-default" role="button"
           href="http://pythonhosted.org/Flask-Bootstrap" >Show docs</a>

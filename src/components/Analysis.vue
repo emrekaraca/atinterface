@@ -8,56 +8,82 @@
       
       <el-card>
         <p>Database</p>
-        <el-form-item label="" prop="db">
-          <el-select v-model="selectedDb" placeholder="Choose Database">
+        <el-form-item label="">
+          <el-select v-model="settings.selectedDb" placeholder="Choose Database">
             <template v-for="db in dbList">
               <el-option :label="db" :value="db" :key="db"></el-option>
             </template>
           </el-select>
         </el-form-item>
-        <el-button-group>
-          <template v-for="(setting, index) in settings">
-            <el-button @click="setting.show = !setting.show" :class="btnClass(index)" type="info">{{index}}</el-button>
-
-          </template>
-        </el-button-group>
       </el-card>
 
       <transition name="el-fade-in">
-        <el-card v-if="settings.polGroup.show">
-          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.polGroup.show=false"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
-          <p>Pol Group</p>
-          <el-row>
-            <template v-for="(group, index) in settings.polGroup.value">
-              <el-col :span="20">
-                <el-card>
-
-                  <el-form-item label="Name:" prop="name">
-                    <el-input v-model="group.name"></el-input>
-                  </el-form-item>
-                  
-
-                </el-card>
-              </el-col>
-              <el-col :span="2">
-                <span @click="settings.polGroup.value.splice(index, 1)" v-if="index>0"><i class="el-icon-circle-close removePolGroup"></i></span>
-                <span @click="settings.polGroup.value.push({'name': 'test'})" v-if="index === settings.polGroup.value.length-1"><i class="el-icon-circle-plus addPolGroup"></i></span>
-              </el-col>
-
-            </template>
-
-          </el-row>
-
+        <el-card v-if="settings.selectedDb">
+          <p>Settings</p>
+          <el-checkbox-group v-model="settings.selectedOptions">
+            <el-checkbox-button v-for="(setting, index) in settings.options" :label="index" :key="index">{{index}}</el-checkbox-button>
+          </el-checkbox-group>          
         </el-card>
       </transition>
 
       <transition name="el-fade-in">
-        <el-card v-if="settings.pageGroup.show">
-          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.pageGroup.show=false"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
+        <el-card v-if="settings.selectedOptions.includes('polGroup')">
+          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='polGroup')"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
+          <p>Pol Group</p>
+          <el-row>
+            <template v-for="(group, index) in settings.options.polGroup.value">
+              <el-col :span="22" :offset="1">
+                <el-card style="position: relative">
+
+                  <el-button style="position: absolute; right: 1%; top: 1%; color: grey" type="text" @click="settings.options.polGroup.value.splice(index, 1)" v-if="index>0">
+                    <i class="el-icon-circle-close-outline closeBtn"></i>
+                  </el-button>
+
+                  <el-form-item label="Name:" prop="name">
+                    <el-input v-model="group.name"></el-input>
+                  </el-form-item>
+
+                  <template v-for="(defintion, index2) in group.definitions">
+                  
+                    <el-card :key="defintion" style="position: relative">
+                      <el-button style="position: absolute; right: 1%; top: 1%; color: grey" type="text" @click="group.definitions.splice(index2, 1)" v-if="index2>0">
+                        <i class="el-icon-circle-close-outline closeBtn"></i>
+                      </el-button>
+                      
+                      <p>Parties</p>
+                      <el-checkbox-group v-model="defintion.list">
+                        <el-checkbox-button v-for="party in parties" :label="party" :key="party">{{party}}</el-checkbox-button>
+                      </el-checkbox-group>          
+
+                      <p>Minimum / Maximum</p>
+                      <el-input-number v-model="defintion.min" controls-position="right" @change="handleChange" :min="0" :max="Math.min(defintion.max, 100)"></el-input-number>
+                      <el-input-number v-model="defintion.max" controls-position="right" @change="handleChange" :min="Math.max(0, defintion.min)" :max="100"></el-input-number>
+                    </el-card>
+
+                  </template>
+                  <el-row>
+                    <el-col :span="24" style="text-align: center">
+                      <el-button @click="group.definitions.push({'list': [], 'min': 0, 'max': 100})" type="text"><i class="el-icon-circle-plus addBtn addPolGroup"></i></el-button>     
+                    </el-col>
+                  </el-row>
+               
+                </el-card>
+              </el-col>
+            </template>
+            <el-col :span="24" style="text-align: center">
+              <el-button @click="addPolGroupItem()" type="text"><i class="el-icon-circle-plus addBtn addPolGroup"></i></el-button>
+            </el-col>
+          </el-row>
+        </el-card>
+      </transition>
+
+      <transition name="el-fade-in">
+        <el-card v-if="settings.selectedOptions.includes('pageGroup')">
+          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='pageGroup')"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
           <p>Page Group</p>
           <el-form-item label="" prop="db">
-            <el-select v-model="settings.pageGroup.value" placeholder="Choose Database">
-              <template v-for="db in dbList.filter((x) => x!==selectedDb)">
+            <el-select v-model="settings.options.pageGroup.value" placeholder="Choose Database">
+              <template v-for="db in dbList.filter((x) => x!==settings.selectedDb)">
                 <el-option :label="db" :value="db" :key="db"></el-option>
               </template>
             </el-select>
@@ -67,19 +93,19 @@
       </transition>
 
       <transition name="el-fade-in">
-        <el-card v-if="settings.geo.show">
-          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.geo.show=false"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
+        <el-card v-if="settings.selectedOptions.includes('geo')">
+          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='geo')"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
           <p>Geo is activated.</p>
         </el-card>
       </transition>
 
       <transition name="el-fade-in">
-        <el-card v-if="settings.minLikes.show">
-          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.minLikes.show=false"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
+        <el-card v-if="settings.selectedOptions.includes('minLikes')">
+          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='minLikes')"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
           <p>Min Likes</p>
           <div class="block">
             <el-slider
-              v-model="settings.minLikes.value"
+              v-model="settings.options.minLikes.value"
               max="30"
               show-input>
             </el-slider>
@@ -88,22 +114,22 @@
       </transition>
 
       <transition name="el-fade-in">
-        <el-card v-if="settings.messageType.show">
-          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.messageType.show=false"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
+        <el-card v-if="settings.selectedOptions.includes('messageType')">
+          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='messageType')"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
           <p>Message Type</p>
           <el-button-group>
               <el-button :class="messageTypeAllClass">All</el-button>
-              <el-button @click="settings.messageType.value.post = !settings.messageType.value.post" :class="messageTypeClass('post')">Post</el-button>
-              <el-button @click="settings.messageType.value.comment = !settings.messageType.value.comment" :class="messageTypeClass('comment')">Comment</el-button>
-              <el-button @click="settings.messageType.value.reaction = !settings.messageType.value.reaction" :class="messageTypeClass('reaction')">Reaction</el-button>
+              <el-button @click="settings.options.messageType.value.post = !settings.options.messageType.value.post" :class="messageTypeClass('post')">Post</el-button>
+              <el-button @click="settings.options.messageType.value.comment = !settings.options.messageType.value.comment" :class="messageTypeClass('comment')">Comment</el-button>
+              <el-button @click="settings.options.messageType.value.reaction = !settings.options.messageType.value.reaction" :class="messageTypeClass('reaction')">Reaction</el-button>
           </el-button-group>
           
         </el-card>
       </transition>
 
       <transition name="el-fade-in">
-        <el-card v-if="settings.reactions.show">
-          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.reactions.show=false"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
+        <el-card v-if="settings.selectedOptions.includes('reactions')">
+          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='reactions')"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
           <p>Reactions</p>
           <el-button round :class="reactionsAllClass">All</el-button>
           <template v-for="reaction in reactions">
@@ -113,24 +139,24 @@
               style="transform: translateY(14px)" 
               :class="reactionClass(reaction)" 
               :key="reaction" 
-              @click="settings.reactions.value[reaction] = !settings.reactions.value[reaction]; setReactionsAll()">
+              @click="settings.options.reactions.value[reaction] = !settings.options.reactions.value[reaction]; setReactionsAll()">
           </template>
           
         </el-card>
       </transition>
 
       <transition name="el-fade-in">
-        <el-card v-if="settings.date.show">
-          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.date.show=false"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
+        <el-card v-if="settings.selectedOptions.includes('date')">
+          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='date')"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
           <p>Date</p>
           <el-form-item label="">
             <el-row>
               <el-col :span="11">
-                <el-date-picker type="date" placeholder="Start Date" v-model="settings.date.start" style="width: 100%;"></el-date-picker>
+                <el-date-picker type="date" placeholder="Start Date" v-model="settings.options.date.start" style="width: 100%;"></el-date-picker>
               </el-col>
               <el-col class="line" :span="2">-</el-col>
               <el-col :span="11">
-                <el-date-picker type="date" placeholder="End Date" v-model="settings.date.end" style="width: 100%;" prop="end"></el-date-picker>
+                <el-date-picker type="date" placeholder="End Date" v-model="settings.options.date.end" style="width: 100%;" prop="end"></el-date-picker>
               </el-col>
             </el-row>
           </el-form-item>
@@ -138,12 +164,35 @@
         </el-card>
       </transition>
 
-      <el-button class="runBtn">Start</el-button>
+      <transition name="el-fade-in">
+        <el-button class="runBtn" @click="submitForm('newAnalysisForm')" v-if="settings.selectedDb">Start Analysis</el-button>
+      </transition>
 
 
 
       
     </el-form>
+
+
+    <transition name="fade">
+        <modal name="settings"
+            :width="500"
+            height="auto"
+            :scrollable="true">
+            <div class="modalDiv">
+              <h4>Your settings:</h4>
+              <p>Database: {{settingsCopy.selectedDb}}</p>
+              <p v-if="settingsCopy.selectedOptions.includes('polGroup')">Number of polGroup-settings: {{settingsCopy.options.polGroup.value.length}}</p>
+              <p v-if="settingsCopy.selectedOptions.includes('pageGroup')">page Group: {{settingsCopy.options.pageGroup.value}}</p>
+              <p v-if="settingsCopy.selectedOptions.includes('geo')">Geo-setting is selected</p>
+              <p v-if="settingsCopy.selectedOptions.includes('minLikes')">MinLikes is set to {{settingsCopy.options.minLikes.value}}</p>
+              <p v-if="settingsCopy.selectedOptions.includes('messageType')">Selected Message Types: <template v-for="(messageType, index) in settingsCopy.options.messageType.value"><span v-if="messageType">{{index}} </span></template></p>
+              <p v-if="settingsCopy.selectedOptions.includes('reactions')">Selected Reaction Types: <template v-for="(reaction, index) in settingsCopy.options.reactions.value"><span v-if="reaction">{{index}} </span></template></p>
+              <p v-if="settingsCopy.selectedOptions.includes('date')">Time Period is set to: {{settingsCopy.options.date.start.substring(0,10)}} - {{settingsCopy.options.date.end.substring(0,10)}}</p>
+            </div>
+        </modal>
+    </transition>    
+    
 
 
 
@@ -159,74 +208,155 @@
 export default {
   data () {
     return {
+      test: [],
       dbList: ['AT_1', 'AT_2', 'AT_3'],
+      parties: ['A', 'AA', 'B', 'C', 'D', 'F', 'I', 'O', 'OE', 'V'],
       reactions: ['like', 'love', 'haha', 'wow', 'sad', 'angry'],
-      selectedDb: '',
       labelPosition: 'right',
       settings: {
-        polGroup: {
-          show: false,
-          value: [
-            {
-              name: '',
-              party: ''
+        selectedDb: '',
+        selectedOptions: [],
+        options: {
+          polGroup: {
+            value: [
+              {
+                name: '',
+                definitions: [
+                  {
+                    list: [],
+                    min: 0,
+                    max: 100
+                  }
+                ]
+              }
+            ]
+          },
+          pageGroup: {
+            value: ''
+          },
+          geo: {
+          },
+          minLikes: {
+            value: 0
+          },
+          messageType: {
+            value: {
+              post: false,
+              comment: false,
+              reaction: false
             }
-          ]
-        },
-        pageGroup: {
-          show: false,
-          value: ''
-        },
-        geo: {
-          show: false
-        },
-        minLikes: {
-          show: false,
-          value: 0
-        },
-        messageType: {
-          show: false,
-          value: {
-            post: false,
-            comment: false,
-            reaction: false
+          },
+          reactions: {
+            value: {
+              like: false,
+              love: false,
+              haha: false,
+              wow: false,
+              sad: false,
+              angry: false
+            }
+          },
+          date: {
+            start: '',
+            end: ''
           }
-        },
-        reactions: {
-          show: false,
-          value: {
-            like: false,
-            love: false,
-            haha: false,
-            wow: false,
-            sad: false,
-            angry: false
-          }
-        },
-        date: {
-          show: false
         }
+      },
+      settingsCopy: {
+        selectedDb: '',
+        selectedOptions: [],
+        options: {
+          polGroup: {
+            value: [
+              {
+                name: '',
+                definitions: [
+                  {
+                    list: [],
+                    min: 0,
+                    max: 100
+                  }
+                ]
+              }
+            ]
+          },
+          pageGroup: {
+            value: ''
+          },
+          geo: {
+          },
+          minLikes: {
+            value: 0
+          },
+          messageType: {
+            value: {
+              post: false,
+              comment: false,
+              reaction: false
+            }
+          },
+          reactions: {
+            value: {
+              like: false,
+              love: false,
+              haha: false,
+              wow: false,
+              sad: false,
+              angry: false
+            }
+          },
+          date: {
+            start: '',
+            end: ''
+          }
+        }
+      },
+      rules: {
       }
     }
   },
   methods: {
+    addPolGroupItem: function () {
+      let newItem = {
+        name: '',
+        definitions: [
+          {
+            list: [],
+            min: 0,
+            max: 100
+          }
+        ]
+      }
+      this.settings.options.polGroup.value.push(newItem)
+    },
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.sendAnalysis()
+          // this.resetForm(formName)
+          console.log('submitted!!')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    sendAnalysis: function () {
+      this.settingsCopy = JSON.parse(JSON.stringify(this.settings))
+      this.showModal()
+    },
+    showModal: function () { this.$modal.show('settings') },
+    hideModal: function () { this.$modal.hide('settings') },
     reactionPic: (reaction) => require('./../assets/reactions/' + reaction + '.png'),
     reactionClass: function (reaction) {
-      if (this.settings.reactions.value[reaction]) {
+      if (this.settings.options.reactions.value[reaction]) {
         return 'settingActive'
       } else {
         return 'settingPassive'
       }
     },
     messageTypeClass: function (messageType) {
-      if (this.settings.messageType.value[messageType]) {
-        return 'settingActive'
-      } else {
-        return 'settingPassive'
-      }
-    },
-    btnClass: function (setting) {
-      if (this.settings[setting].show) {
+      if (this.settings.options.messageType.value[messageType]) {
         return 'settingActive'
       } else {
         return 'settingPassive'
@@ -235,21 +365,21 @@ export default {
   },
   computed: {
     reactionsAllClass: function () {
-      if (this.settings.reactions.value.like === false &&
-        this.settings.reactions.value.love === false &&
-        this.settings.reactions.value.haha === false &&
-        this.settings.reactions.value.wow === false &&
-        this.settings.reactions.value.sad === false &&
-        this.settings.reactions.value.angry === false) {
+      if (this.settings.options.reactions.value.like === false &&
+        this.settings.options.reactions.value.love === false &&
+        this.settings.options.reactions.value.haha === false &&
+        this.settings.options.reactions.value.wow === false &&
+        this.settings.options.reactions.value.sad === false &&
+        this.settings.options.reactions.value.angry === false) {
         return 'settingActive'
       } else {
         return 'settingPassive'
       }
     },
     messageTypeAllClass: function () {
-      if (this.settings.messageType.value.post === false &&
-        this.settings.messageType.value.comment === false &&
-        this.settings.messageType.value.reaction === false) {
+      if (this.settings.options.messageType.value.post === false &&
+        this.settings.options.messageType.value.comment === false &&
+        this.settings.options.messageType.value.reaction === false) {
         return 'settingActive'
       } else {
         return 'settingPassive'
@@ -260,6 +390,9 @@ export default {
 </script>
 
 <style scoped>
+.modalDiv {
+  padding: 15px;
+}
 
 .settingActive {
   opacity: 1;
@@ -278,7 +411,6 @@ export default {
 }
 
 .addPolGroup {
-  color: green;
   font-size: 30px;
   transform: translateY(15px);
 }
