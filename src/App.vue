@@ -56,6 +56,11 @@ body {
   background-color: #ebebeb;
 }
 
+.runBtn {
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+  width: 100%;
+}
+
 .closeBtn:hover {
   color: #79174f;
 }
@@ -132,5 +137,9 @@ body {
 
 .el-input-number__decrease:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled), .el-input-number__increase:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled) {
   border-color: #79174f;
+}
+
+.el-slider__button-wrapper {
+  z-index: 998;
 }
 </style>

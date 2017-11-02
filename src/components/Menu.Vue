@@ -9,7 +9,7 @@
           text-color="#7d7d7d"
           active-text-color="#fff"
           router>
-          <img :src="logo()" width="80%" style="margin: 20px 0 20px 10%" />
+          <img :src="logo()" width="80%" style="margin: 30px 0 20px 10%" />
           <el-menu-item index="/"><i class="el-icon-arrow-right"></i>Home</el-menu-item>
           <template v-for="(option, index) in options">
             <el-menu-item :index="(option).toLowerCase().replace(' ', '')" :key="option"><i class="el-icon-arrow-right"></i>{{option}}</el-menu-item>
@@ -24,7 +24,8 @@
 export default {
   data () {
     return {
-      options: ['Collection', 'Analysis', 'Debug Info', 'Topic Model']
+      options: ['Collection', 'Analysis']
+      // options: ['Collection', 'Analysis', 'Debug Info', 'Topic Model']
     }
   },
   methods: {

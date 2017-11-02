@@ -4,11 +4,11 @@
       <h1>Analyse</h1>
     </el-card>
 
-    <el-form :label-position="labelPosition" label-width="0px" :model="settings" ref="newAnalysisForm" :rules="rules">
+    <el-form label-width="0px" :model="settings" ref="newAnalysisForm" :rules="rules2">
       
       <el-card>
-        <p>Database</p>
-        <el-form-item label="">
+        <p>Choose your database</p>
+        <el-form-item prop="selectedDb">
           <el-select v-model="settings.selectedDb" placeholder="Choose Database">
             <template v-for="db in dbList">
               <el-option :label="db" :value="db" :key="db"></el-option>
@@ -19,7 +19,7 @@
 
       <transition name="el-fade-in">
         <el-card v-if="settings.selectedDb">
-          <p>Settings</p>
+          <p>Select your settings</p>
           <el-checkbox-group v-model="settings.selectedOptions">
             <el-checkbox-button v-for="(setting, index) in settings.options" :label="index" :key="index">{{index}}</el-checkbox-button>
           </el-checkbox-group>          
@@ -39,7 +39,8 @@
                     <i class="el-icon-circle-close-outline closeBtn"></i>
                   </el-button>
 
-                  <el-form-item label="Name:" prop="name">
+                  <p>Name:</p>
+                  <el-form-item>
                     <el-input v-model="group.name"></el-input>
                   </el-form-item>
 
@@ -51,7 +52,7 @@
                       </el-button>
                       
                       <p>Parties</p>
-                      <el-checkbox-group v-model="defintion.list">
+                      <el-checkbox-group v-model="defintion.list" prop="parties">
                         <el-checkbox-button v-for="party in parties" :label="party" :key="party">{{party}}</el-checkbox-button>
                       </el-checkbox-group>          
 
@@ -311,7 +312,10 @@ export default {
           }
         }
       },
-      rules: {
+      rules2: {
+        selectedDb: [
+          { required: true, message: 'This field has to be filled', trigger: 'change' }
+        ]
       }
     }
   },
@@ -404,10 +408,6 @@ export default {
 
 .line {
   text-align: center;
-}
-
-.runBtn {
-  width: 100%;
 }
 
 .addPolGroup {
