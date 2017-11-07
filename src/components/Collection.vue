@@ -2,20 +2,20 @@
   <div class="main">
     <el-form label-width="150px" :model="project" ref="newProjectForm" :rules="rules">
       <el-card>
-        <h1>Indsamling</h1>
+        <h1>Collection</h1>
       </el-card>
       
       <el-card>
         <el-row>
 
           <el-col :span="12">
-            <el-form-item label="Projekt Titel:" prop="title">
+            <el-form-item label="Project Title:" prop="title">
               <el-input v-model="project.title"></el-input>
             </el-form-item>
             <el-form-item label="Facebook Page List:" prop="pageList">
               <el-input type="textarea" :rows="6" v-model="project.pageList"></el-input>
             </el-form-item>
-            <el-form-item label="Land:" prop="country">
+            <el-form-item label="Country:" prop="country">
               <el-select v-model="project.country" placeholder="Choose country">
                 <template v-for="country in countryList">
                   <el-option :label="country" :value="country" :key="country"></el-option>
@@ -31,7 +31,7 @@
           </el-col>
 
           <el-col :span="11">
-            <el-form-item label="Database navn:" prop="dbName">
+            <el-form-item label="Database name:" prop="dbName">
               <el-input v-model="project.dbName"></el-input>
             </el-form-item>
             <el-form-item label="App ID:" prop="appID">

@@ -40,8 +40,16 @@ a {
   color: black;
 }
 
+.main {
+  height: 100%;
+}
+
+.el-row, .el-col {
+  height: inherit;
+}
+
 .el-menu-vertical {
-  height: 100vh;
+  height: inherit;
   border: none;
 }
 

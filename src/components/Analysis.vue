@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <el-card>
-      <h1>Analyse</h1>
+      <h1>Analysis</h1>
     </el-card>
 
     <el-form label-width="0px" :model="settings" ref="newAnalysisForm" :rules="rules2">
@@ -107,7 +107,7 @@
           <div class="block">
             <el-slider
               v-model="settings.options.minLikes.value"
-              max="30"
+              :max="30"
               show-input>
             </el-slider>
           </div>              
@@ -140,7 +140,7 @@
               style="transform: translateY(14px)" 
               :class="reactionClass(reaction)" 
               :key="reaction" 
-              @click="settings.options.reactions.value[reaction] = !settings.options.reactions.value[reaction]; setReactionsAll()">
+              @click="settings.options.reactions.value[reaction] = !settings.options.reactions.value[reaction]">
           </template>
           
         </el-card>
@@ -264,54 +264,9 @@ export default {
         }
       },
       settingsCopy: {
-        selectedDb: '',
-        selectedOptions: [],
-        options: {
-          polGroup: {
-            value: [
-              {
-                name: '',
-                definitions: [
-                  {
-                    list: [],
-                    min: 0,
-                    max: 100
-                  }
-                ]
-              }
-            ]
-          },
-          pageGroup: {
-            value: ''
-          },
-          geo: {
-          },
-          minLikes: {
-            value: 0
-          },
-          messageType: {
-            value: {
-              post: false,
-              comment: false,
-              reaction: false
-            }
-          },
-          reactions: {
-            value: {
-              like: false,
-              love: false,
-              haha: false,
-              wow: false,
-              sad: false,
-              angry: false
-            }
-          },
-          date: {
-            start: '',
-            end: ''
-          }
-        }
+        selectedOptions: []
       },
+      settingsTemplate: {},
       rules2: {
         selectedDb: [
           { required: true, message: 'This field has to be filled', trigger: 'change' }
@@ -320,6 +275,9 @@ export default {
     }
   },
   methods: {
+    createSettingsTemplate: function () { this.settingsTemplate = JSON.parse(JSON.stringify(this.settings)) },
+    createSettingsCopy: function () { this.settingsCopy = JSON.parse(JSON.stringify(this.settings)) },
+    resetSettings: function () { this.settings = JSON.parse(JSON.stringify(this.settingsTemplate)) },
     addPolGroupItem: function () {
       let newItem = {
         name: '',
@@ -335,8 +293,13 @@ export default {
     },
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
+        let self = this
         if (valid) {
           this.sendAnalysis()
+          setTimeout(function () {
+            console.log('waiting')
+            self.resetSettings()
+          }, 500)
           // this.resetForm(formName)
           console.log('submitted!!')
         } else {
@@ -389,6 +352,10 @@ export default {
         return 'settingPassive'
       }
     }
+  },
+  mounted () {
+    this.createSettingsTemplate()
+    this.createSettingsCopy()
   }
 }
 </script>
@@ -396,6 +363,10 @@ export default {
 <style scoped>
 .modalDiv {
   padding: 15px;
+}
+
+.v--modal-overlay {
+  z-index: 1002;
 }
 
 .settingActive {

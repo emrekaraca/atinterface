@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/da'
-import 'element-ui/lib/theme-chalk/index.css'
+import '../theme/index.css'
 import VModal from 'vue-js-modal'
 Vue.use(VModal, { dialog: true })
 Vue.use(ElementUI, { locale })

@@ -34,6 +34,14 @@ export default {
 
 <style>
 
+.el-container {
+  min-height: 100vh;
+}
+
+.el-aside, main.el-main.main {
+  height: inherit;
+}
+
 .fade-enter-active, .fade-leave-active {
   transition-property: opacity;
   transition-duration: .4s;
@@ -74,72 +82,7 @@ body {
 .addBtn:hover, .addBtn:active {
   color: #768a60
 }
-
 .el-card {
   margin: 10px 0;
-}
-
-.el-form-item__error, .el-form-item.is-required .el-form-item__label:before {
-  color: #e01783;
-}
-
-
-.el-form-item.is-error .el-input__inner, .el-form-item.is-error .el-input__inner:focus, .el-form-item.is-error .el-textarea__inner, .el-form-item.is-error .el-textarea__inner:focus, .el-message-box__input input.invalid, .el-message-box__input input.invalid:focus {
-  border-color: #e01783;
-}
-
-.el-form-item.is-success .el-input__inner, .el-form-item.is-success .el-input__inner:focus, .el-form-item.is-success .el-textarea__inner, .el-form-item.is-success .el-textarea__inner:focus {
-  border-color: #768a60;
-}
-
-.el-checkbox-button__inner:hover {
-  color: grey
-}
-
-
-
-.el-checkbox-button.is-checked .el-checkbox-button__inner {
-  color: #fff;
-  background-color: #79174f;
-  border-color: lightgrey;
-  box-shadow: none;
-}
-
-.el-checkbox-button.is-focus .el-checkbox-button__inner {
-  border-color: lightgrey;  
-}
-
-.el-checkbox-button__inner {
-  /* border: none;   */
-}
-
-.el-input__inner:focus, .el-textarea__inner:focus, .el-select .el-input__inner:focus {
-  border-color: #79174f;
-}
-
- .runBtn.el-button:focus,  .runBtn.el-button:hover {
-  color: black;
-  border-color: lightgrey;
-  background-color: lightgrey;
-}
-
-.el-slider__bar {
-  background-color: #79174f;
-}
-
-.el-slider__button {
-  border-color: #79174f;
-}
-
-.el-input-number__decrease:hover, .el-input-number__increase:hover {
-  color: #79174f;
-}
-
-.el-input-number__decrease:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled), .el-input-number__increase:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled) {
-  border-color: #79174f;
-}
-
-.el-slider__button-wrapper {
-  z-index: 998;
 }
 </style>
