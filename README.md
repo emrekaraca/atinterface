@@ -44,6 +44,6 @@ There are 3 folders:
 `assets/`: This folder contains all static assets such as images.
 
 
-## Vuetify UI Framework
+## ElementUI-Library
 
-This webapp makes use of the Vuetify-Framework (v0.16). The documentation can be found under https://vuetifyjs.com/vuetify/quick-start.
+This webapp makes use of the ElementUI-Library (v0.16). The documentation can be found under http://element.eleme.io/#/en-US/component/installation.
