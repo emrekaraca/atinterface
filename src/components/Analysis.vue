@@ -1,10 +1,12 @@
 <template>
-  <div class="main">
+  <div>
     <el-card>
       <h1>Analysis</h1>
     </el-card>
 
-    <el-form label-width="0px" :model="settings" ref="newAnalysisForm" :rules="rules2">
+    <!-- The el-form is described in more detail in Collection.vue -->
+    <!-- Read more about ElementUI-Form: http://element.eleme.io/#/en-US/component/form -->
+    <el-form label-width="0px" :model="settings" ref="newAnalysisForm" :rules="analysisRules">
       
       <el-card>
         <p>Choose your database</p>
@@ -17,6 +19,10 @@
         </el-form-item>
       </el-card>
 
+      <!-- All setting-cards are wrapped with v-if's and transition-wrappers.  -->
+      <!-- If the setting is within the selectedSettings-Array, it is shown - otherwise it is hidden. -->
+      <!-- The data-flow is explained in the script-block -->
+
       <transition name="el-fade-in">
         <el-card v-if="settings.selectedDb">
           <p>Select your settings</p>
@@ -26,9 +32,14 @@
         </el-card>
       </transition>
 
+      <!-- This setting has three nested layers of cards. -->
+      <!-- There are currently a lot of inline-stylings - this should be improved. -->
+      <!-- The 2nd- and 3rd level cards are generated with the native VueJS v-for-directive -->
+      <!-- Read more about v-for here: https://vuejs.org/v2/guide/list.html -->
       <transition name="el-fade-in">
         <el-card v-if="settings.selectedOptions.includes('polGroup')">
-          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='polGroup')"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
+          <!-- This button takes out this setting from the selectedSettings-Array. It is repeated for each setting. It should be made reusable. -->
+          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='polGroup')"><i class="el-icon-circle-close-outline roundBtn"></i></el-button>
           <p>Pol Group</p>
           <el-row>
             <template v-for="(group, index) in settings.options.polGroup.value">
@@ -36,7 +47,7 @@
                 <el-card style="position: relative">
 
                   <el-button style="position: absolute; right: 1%; top: 1%; color: grey" type="text" @click="settings.options.polGroup.value.splice(index, 1)" v-if="index>0">
-                    <i class="el-icon-circle-close-outline closeBtn"></i>
+                    <i class="el-icon-circle-close-outline roundBtn"></i>
                   </el-button>
 
                   <p>Name:</p>
@@ -48,7 +59,7 @@
                   
                     <el-card :key="defintion" style="position: relative">
                       <el-button style="position: absolute; right: 1%; top: 1%; color: grey" type="text" @click="group.definitions.splice(index2, 1)" v-if="index2>0">
-                        <i class="el-icon-circle-close-outline closeBtn"></i>
+                        <i class="el-icon-circle-close-outline roundBtn"></i>
                       </el-button>
                       
                       <p>Parties</p>
@@ -64,7 +75,7 @@
                   </template>
                   <el-row>
                     <el-col :span="24" style="text-align: center">
-                      <el-button @click="group.definitions.push({'list': [], 'min': 0, 'max': 100})" type="text"><i class="el-icon-circle-plus addBtn addPolGroup"></i></el-button>     
+                      <el-button @click="group.definitions.push({'list': [], 'min': 0, 'max': 100})" type="text"><i class="el-icon-circle-plus addBtn roundBtn addPolGroup"></i></el-button>     
                     </el-col>
                   </el-row>
                
@@ -72,7 +83,7 @@
               </el-col>
             </template>
             <el-col :span="24" style="text-align: center">
-              <el-button @click="addPolGroupItem()" type="text"><i class="el-icon-circle-plus addBtn addPolGroup"></i></el-button>
+              <el-button @click="addPolGroupItem()" type="text"><i class="el-icon-circle-plus addBtn roundBtn addPolGroup"></i></el-button>
             </el-col>
           </el-row>
         </el-card>
@@ -80,10 +91,11 @@
 
       <transition name="el-fade-in">
         <el-card v-if="settings.selectedOptions.includes('pageGroup')">
-          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='pageGroup')"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
+          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='pageGroup')"><i class="el-icon-circle-close-outline roundBtn"></i></el-button>
           <p>Page Group</p>
           <el-form-item label="" prop="db">
             <el-select v-model="settings.options.pageGroup.value" placeholder="Choose Database">
+              <!-- The dbList is filtered, so that the selectedDB (from above) is not offered here -->
               <template v-for="db in dbList.filter((x) => x!==settings.selectedDb)">
                 <el-option :label="db" :value="db" :key="db"></el-option>
               </template>
@@ -95,14 +107,14 @@
 
       <transition name="el-fade-in">
         <el-card v-if="settings.selectedOptions.includes('geo')">
-          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='geo')"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
+          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='geo')"><i class="el-icon-circle-close-outline roundBtn"></i></el-button>
           <p>Geo is activated.</p>
         </el-card>
       </transition>
 
       <transition name="el-fade-in">
         <el-card v-if="settings.selectedOptions.includes('minLikes')">
-          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='minLikes')"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
+          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='minLikes')"><i class="el-icon-circle-close-outline roundBtn"></i></el-button>
           <p>Min Likes</p>
           <div class="block">
             <el-slider
@@ -116,10 +128,10 @@
 
       <transition name="el-fade-in">
         <el-card v-if="settings.selectedOptions.includes('messageType')">
-          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='messageType')"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
+          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='messageType')"><i class="el-icon-circle-close-outline roundBtn"></i></el-button>
           <p>Message Type</p>
           <el-button-group>
-              <el-button :class="messageTypeAllClass">All</el-button>
+              <el-button :class="messageTypeAllClass" @click="setMessageTypeAll()">All</el-button>
               <el-button @click="settings.options.messageType.value.post = !settings.options.messageType.value.post" :class="messageTypeClass('post')">Post</el-button>
               <el-button @click="settings.options.messageType.value.comment = !settings.options.messageType.value.comment" :class="messageTypeClass('comment')">Comment</el-button>
               <el-button @click="settings.options.messageType.value.reaction = !settings.options.messageType.value.reaction" :class="messageTypeClass('reaction')">Reaction</el-button>
@@ -130,9 +142,9 @@
 
       <transition name="el-fade-in">
         <el-card v-if="settings.selectedOptions.includes('reactions')">
-          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='reactions')"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
+          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='reactions')"><i class="el-icon-circle-close-outline roundBtn"></i></el-button>
           <p>Reactions</p>
-          <el-button round :class="reactionsAllClass">All</el-button>
+          <el-button round :class="reactionsAllClass" @click="setReactionsAll()">All</el-button>
           <template v-for="reaction in reactions">
             <img :src="reactionPic(reaction)" 
               :alt="reaction" 
@@ -148,7 +160,7 @@
 
       <transition name="el-fade-in">
         <el-card v-if="settings.selectedOptions.includes('date')">
-          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='date')"><i class="el-icon-circle-close-outline closeBtn"></i></el-button>
+          <el-button style="float: right; padding: 3px 0; color: grey" type="text" @click="settings.selectedOptions = settings.selectedOptions.filter((x)=>x!=='date')"><i class="el-icon-circle-close-outline roundBtn"></i></el-button>
           <p>Date</p>
           <el-form-item label="">
             <el-row>
@@ -206,14 +218,22 @@
 </template>
 
 <script>
+// The data-flow is currently handled as follows:
+// The component is initialized with an empty "settings"-object
+// At mounted(), the "settings"-object is copied into the "settingsTemplate"-object
+// All form actions are modeled in the "settings"-object
+// When the form is sent, the "settings"-object is copied to the "settingsCopy"-object
+// The "settingsCopy"-object is then used to show the settings in the modal
+// At the same time the "settings"-object is reset by copying the "settingsTemplate"-object into it
+// All of this is done, so that the "settings"-object is only defined once.
+// Otherwise future changes would necessitate edits in multiple places
+
 export default {
   data () {
     return {
-      test: [],
-      dbList: ['AT_1', 'AT_2', 'AT_3'],
+      dbList: ['AT_1', 'AT_2', 'AT_3'], // DummyList
       parties: ['A', 'AA', 'B', 'C', 'D', 'F', 'I', 'O', 'OE', 'V'],
       reactions: ['like', 'love', 'haha', 'wow', 'sad', 'angry'],
-      labelPosition: 'right',
       settings: {
         selectedDb: '',
         selectedOptions: [],
@@ -264,10 +284,11 @@ export default {
         }
       },
       settingsCopy: {
-        selectedOptions: []
+        selectedOptions: [] // this field has to be present from the beginning, because the modal has v-if's on this array.
       },
       settingsTemplate: {},
-      rules2: {
+      // The rules object is the set of rules for the ElementUI-form-validation
+      analysisRules: {
         selectedDb: [
           { required: true, message: 'This field has to be filled', trigger: 'change' }
         ]
@@ -291,16 +312,14 @@ export default {
       }
       this.settings.options.polGroup.value.push(newItem)
     },
+    // The submitForm-function is taken from the ElementUI-documentation and customized
+
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         let self = this
         if (valid) {
-          this.sendAnalysis()
-          setTimeout(function () {
-            console.log('waiting')
-            self.resetSettings()
-          }, 500)
-          // this.resetForm(formName)
+          this.sendAnalysis() // trigger custom sendAnalysis-function
+          self.resetSettings() // trigger custom reset-function
           console.log('submitted!!')
         } else {
           console.log('error submit!!')
@@ -309,8 +328,9 @@ export default {
       })
     },
     sendAnalysis: function () {
+      // assign deep copy of "project"-object to "projectCopy"-object
       this.settingsCopy = JSON.parse(JSON.stringify(this.settings))
-      this.showModal()
+      this.showModal() // trigger settings-modal
     },
     showModal: function () { this.$modal.show('settings') },
     hideModal: function () { this.$modal.hide('settings') },
@@ -328,6 +348,19 @@ export default {
       } else {
         return 'settingPassive'
       }
+    },
+    setMessageTypeAll: function () {
+      this.settings.options.messageType.value.post = false
+      this.settings.options.messageType.value.comment = false
+      this.settings.options.messageType.value.reaction = false
+    },
+    setReactionsAll: function () {
+      this.settings.options.reactions.value.like = false
+      this.settings.options.reactions.value.love = false
+      this.settings.options.reactions.value.haha = false
+      this.settings.options.reactions.value.wow = false
+      this.settings.options.reactions.value.sad = false
+      this.settings.options.reactions.value.angry = false
     }
   },
   computed: {
@@ -355,20 +388,11 @@ export default {
   },
   mounted () {
     this.createSettingsTemplate()
-    this.createSettingsCopy()
   }
 }
 </script>
 
 <style scoped>
-.modalDiv {
-  padding: 15px;
-}
-
-.v--modal-overlay {
-  z-index: 1002;
-}
-
 .settingActive {
   opacity: 1;
 }
@@ -382,18 +406,7 @@ export default {
 }
 
 .addPolGroup {
-  font-size: 30px;
   transform: translateY(15px);
-}
-
-.removePolGroup {
-  color: red;
-  font-size: 30px;
-  transform: translateY(15px)
-}
-
-.closeBtn {
-  font-size: 30px;
 }
 
 </style>

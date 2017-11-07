@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div>
     <el-card>
       <h1>Attention Triggers 2.0</h1>
       <p><b>The feature is now.</b></p>

@@ -1,6 +1,11 @@
 <template>
-  <div class="main">
-    <el-form label-width="150px" :model="project" ref="newProjectForm" :rules="rules">
+  <div>
+    <!-- The top-level el-form element wraps the form and enables validation -->
+    <!-- The :model-attribute is ElementUI-specific and enables automatic form-reset -->
+    <!-- The ref-attribute identifies the form -->
+    <!-- The :rules-attribute is ElementUI-specific and sets the validation-rules-object that should be used for validation -->
+    <!-- Read more about ElementUI-Form: http://element.eleme.io/#/en-US/component/form -->
+    <el-form label-width="150px" :model="project" ref="newProjectForm" :rules="collectionRules">
       <el-card>
         <h1>Collection</h1>
       </el-card>
@@ -9,12 +14,18 @@
         <el-row>
 
           <el-col :span="12">
+
+            <!-- The prop-attribute is ElementUI-specific and identifies which validation rule should be applied to the form item -->
             <el-form-item label="Project Title:" prop="title">
+
+              <!-- The v-model attribute is the standard VueJS-way for 2-way-data-binding -->
               <el-input v-model="project.title"></el-input>
             </el-form-item>
+
             <el-form-item label="Facebook Page List:" prop="pageList">
               <el-input type="textarea" :rows="6" v-model="project.pageList"></el-input>
             </el-form-item>
+
             <el-form-item label="Country:" prop="country">
               <el-select v-model="project.country" placeholder="Choose country">
                 <template v-for="country in countryList">
@@ -22,9 +33,11 @@
                 </template>
               </el-select>              
             </el-form-item>
+
             <el-form-item label="Start Date" prop="start">
               <el-date-picker type="date" placeholder="Start Date" v-model="project.start" style="width: 100%;"></el-date-picker>
             </el-form-item>
+
             <el-form-item label="End Date" prop="end">
               <el-date-picker type="date" placeholder="End Date" v-model="project.end" style="width: 100%;"></el-date-picker>
             </el-form-item>
@@ -45,11 +58,14 @@
         </el-row>
       </el-card>
 
+      <!-- This trigger-button is styled with reusable styles in App.vue -->
       <el-button class="runBtn" @click="submitForm('newProjectForm')">Kør indsamling</el-button>
     </el-form>
 
-      
+    <!-- This transition-wrapper is styled in App.vue -->
     <transition name="fade">
+
+        <!-- The Modal is shown, when a task is sent - More Info: https://github.com/euvl/vue-js-modal/ -->
         <modal name="settings"
             :width="500"
             height="auto"
@@ -73,6 +89,12 @@
 </template>
 
 <script>
+// The data-flow is currently handled as follows:
+// The "project"-object is modeled from the form.
+// When the task is sent, the "project"-object is copied to the "projectCopy"-object.
+// The "project"-object is then reset to empty.
+// The "projectCopy"-object is then displayed in the Modal (and will later be handled by the task-sending-function)
+
 export default {
   data () {
     return {
@@ -96,7 +118,8 @@ export default {
         appID: '',
         appSecret: ''
       },
-      rules: {
+      // The rules object is the set of rules for the ElementUI-form-validation
+      collectionRules: {
         title: [
           { required: true, message: 'This field has to be filled', trigger: 'change' }
         ],
@@ -126,11 +149,12 @@ export default {
     }
   },
   methods: {
+      // The submitForm-function is taken from the ElementUI-documentation and customized
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.sendTask()
-          this.resetForm(formName)
+          this.sendTask() // trigger custom sendTask-function
+          this.resetForm(formName) // trigger built-in resetForm-function, which sets all fields in the "project"-object to empty
         } else {
           console.log('error submit!!')
           return false
@@ -141,8 +165,9 @@ export default {
       this.$refs[formName].resetFields()
     },
     sendTask: function () {
+      // assign deep copy of "project"-object to "projectCopy"-object
       this.projectCopy = JSON.parse(JSON.stringify(this.project))
-      this.showModal()
+      this.showModal() // trigger settings-modal
     },
     showModal: function () { this.$modal.show('settings') },
     hideModal: function () { this.$modal.hide('settings') }
@@ -150,17 +175,7 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- The "scoped" attribute limits this CSS to this component only -->
 <style scoped>
-.modalDiv {
-  padding: 15px;
-}
 
-.line {
-  text-align: center;
-}
-
-.runBtn {
-  width: 100%;
-}
 </style>

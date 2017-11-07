@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="menuContainer">
     <el-row class="tac">
       <el-col :span="24">
         <el-menu
@@ -36,25 +36,20 @@ export default {
 
 <style>
 
-a {
-  color: black;
+.menuContainer {
+  height: 100%; /* Ensure menuContainer fills out parent element (el-aside in App.vue) */
 }
 
-.main {
-  height: 100%;
-}
-
-.el-row, .el-col {
-  height: inherit;
+.el-row, .el-col, .el-menu-vertical {
+  height: inherit; /* Ensure all menu-elements fill out parent element (menuContainer) */
 }
 
 .el-menu-vertical {
-  height: inherit;
-  border: none;
+  border: none; /* Remove default border style */
 }
 
 .el-menu-item.is-active {
-  background-color: rgba(115,40,83,1)!important;
+  background-color: rgba(115,40,83,1)!important; /* Adding extra highlight to active menu item */
 }
 
 </style>
